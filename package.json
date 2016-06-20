@@ -1,0 +1,43 @@
+{
+    "name": "coolback",
+    "description": "Some callback utilities plus others",
+    "version": "0.0.1",
+    "homepage": "https://github.com/sjclay/coolback",
+    "author": {
+        "name": "Simon Clay"
+    },
+    "maintainers": [
+      {
+         "name": "Simon Clay",
+         "email": "simonclay@hotmail.com"
+      }
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/sjclay/coolback.git"
+    },
+    "bugs": {
+        "url": "https://github.com/sjclay/coolback/issues"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/sjclay/coolback/blob/master/LICENSE"
+        }
+    ],
+    "main": "index.js",
+    "scripts": {
+        "test": "mocha test.js"
+    },
+    "engines": {
+        "node": ">= 0.10.0"
+    },
+    "devDependencies": {
+      "mocha": "2.2.5"
+    },
+    "keywords": [
+        "callback",
+        "utility",
+        "module"
+    ]
+}

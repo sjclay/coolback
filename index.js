@@ -269,7 +269,7 @@ function _chain(links, i, cb) {
    try {
       if(i > (links.length - 1)) {
          // All done
-         return eventLoop.apply(null, _arrayConcat([cb], _clearArgs(arguments, [0, 1, 2])));
+         return eventLoop.apply(null, _arrayConcat([cb, null], _clearArgs(arguments, [0, 1, 2])));
       }
       return eventLoop.apply(null, _arrayConcat(links[i], _arrayConcat(_clearArgs(arguments, [0, 1, 2]), function(err) {
          if(err) {

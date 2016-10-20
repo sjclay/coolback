@@ -1,43 +1,63 @@
 {
-    "name": "coolback",
-    "description": "Some callback utilities plus others",
-    "version": "0.0.1",
-    "homepage": "https://github.com/sjclay/coolback",
-    "author": {
-        "name": "Simon Clay"
-    },
-    "maintainers": [
-      {
-         "name": "Simon Clay",
-         "email": "simonclay@hotmail.com"
-      }
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/sjclay/coolback.git"
-    },
-    "bugs": {
-        "url": "https://github.com/sjclay/coolback/issues"
-    },
-    "licenses": [
-        {
-            "type": "MIT",
-            "url": "https://github.com/sjclay/coolback/blob/master/LICENSE"
-        }
-    ],
-    "main": "index.js",
-    "scripts": {
-        "test": "mocha test.js"
-    },
-    "engines": {
-        "node": ">= 0.10.0"
-    },
-    "devDependencies": {
-      "mocha": "2.2.5"
-    },
-    "keywords": [
-        "callback",
-        "utility",
-        "module"
-    ]
+  "name": "coolback",
+  "description": "Some callback utilities plus others",
+  "version": "0.0.2",
+  "homepage": "https://github.com/sjclay/coolback",
+  "author": {
+    "name": "Simon Clay"
+  },
+  "maintainers": [
+    {
+      "name": "Simon Clay",
+      "email": "simonclay@hotmail.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sjclay/coolback.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sjclay/coolback/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/sjclay/coolback/blob/master/LICENSE"
+    }
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test.js"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "devDependencies": {
+    "mocha": "2.2.5"
+  },
+  "keywords": [
+    "callback",
+    "utility",
+    "module"
+  ],
+  "gitHead": "a2ff511a4c88005a920d809c2db6344d8e79f5b8",
+  "_id": "coolback@0.0.1",
+  "_shasum": "41de7c5e823d8d236624aac6fe3d90a9f9b6f745",
+  "_from": "coolback@0.0.1",
+  "_npmVersion": "2.15.5",
+  "_nodeVersion": "4.4.5",
+  "_npmUser": {
+    "name": "sjclay",
+    "email": "simonclay@hotmail.com"
+  },
+  "dist": {
+    "shasum": "41de7c5e823d8d236624aac6fe3d90a9f9b6f745",
+    "tarball": "https://cde.toyota-europe.com/nexus/content/groups/npm-all/coolback/-/coolback-0.0.1.tgz"
+  },
+  "_npmOperationalInternal": {
+    "host": "packages-16-east.internal.npmjs.com",
+    "tmp": "tmp/coolback-0.0.1.tgz_1468395376540_0.6967977399472147"
+  },
+  "directories": {},
+  "_resolved": "https://cde.toyota-europe.com/nexus/content/groups/npm-all/coolback/-/coolback-0.0.1.tgz"
 }

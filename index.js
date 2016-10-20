@@ -44,7 +44,7 @@ function _clearArgs(args, rem) {
 function _error(err, cb) {
    try {
       if(typeof cb === 'function') {
-         return cb(err);
+         return nextTick(cb)(err);
       }
       if(_isError(err) === true) {
          throw err
@@ -73,8 +73,10 @@ function eventLoop() {
    try {
       // All ok?
       if(arguments.length <= 0 || typeof arguments[0] !== 'function') {
-         throw new Error('Incorrect parameters supplied to eventLoop');
+         return _error(new Error('Incorrect parameters supplied to eventLoop'));
       }
+      // Bind to namespaces
+      nsBind(arguments);
       // Get the callback
       var cb = arguments[0];
       // Populate the arguments to send
@@ -92,6 +94,27 @@ function eventLoop() {
 }
 
 /**
+ * Binds to any namespaces currently running
+ */
+function nsBind(args) {
+  Object.keys(args || {}).forEach(function(key) {
+    Object.keys(process.namespaces || {}).forEach(function(name) {
+      if(typeof args[key] === 'function') {
+        // Functions
+        args[key] = process.namespaces[name].bind(args[key]);
+      } else {
+        try {
+          // Streams
+          process.namespaces[name].bindEmitter(args[key]);
+        } catch(err) {
+          // Ignore
+        }
+      }
+    });
+  });
+}
+
+/**
  * For wrapping SYNC coded functions
  * Any value that is returned from the function is passed to the Callback
  * Return an array of values to populate multiple variables in the Callback
@@ -103,11 +126,11 @@ function eventLoop() {
 function wrap(fn) {
    try {
       if(typeof fn !== 'function') {
-         throw new Error('Incorrect parameters supplied to wrap');
+         return _error(new Error('Incorrect parameters supplied to wrap'));
       }
       var wrapped = function() {
          if(typeof arguments[arguments.length - 1] !== 'function') {
-            throw new Error('Incorrect parameters supplied to ' + fn.name);
+            return _error(new Error('Incorrect parameters supplied to ' + fn.name));
          }
          var cbi = arguments.length - 1;
          var cb = arguments[cbi];
@@ -133,7 +156,7 @@ function wrap(fn) {
 function unwrap(fn) {
    try {
       if(typeof fn !== 'function') {
-         throw new Error('Incorrect parameters supplied to unwrap');
+         return _error(new Error('Incorrect parameters supplied to unwrap'));
       }
       return (typeof fn._wrappedFn !== 'undefined' ? fn._wrappedFn : fn);
    } catch(err) {
@@ -149,7 +172,7 @@ function unwrap(fn) {
 function each(obj, fn, cb) {
    try {
       if(typeof obj !== 'object' || obj === null || typeof fn !== 'function' || typeof cb !== 'function') {
-         throw new Error('Incorrect parameters supplied to each');
+         return _error(new Error('Incorrect parameters supplied to each'), cb);
       }
       if(Object.keys(obj).length === 0) {
         // Nothing to process
@@ -167,7 +190,7 @@ function each(obj, fn, cb) {
 function eachInTurn(obj, fn, cb) {
   try {
     if(typeof obj !== 'object' || obj === null || typeof fn !== 'function' || typeof cb !== 'function') {
-       throw new Error('Incorrect parameters supplied to eachInTurn');
+       return _error(new Error('Incorrect parameters supplied to eachInTurn'), cb);
     }
     if(Object.keys(obj).length === 0) {
       // Nothing to process
@@ -185,7 +208,8 @@ function eachInTurn(obj, fn, cb) {
 function _eachWild(obj, keys, fn, cb) {
    try {
       var regexLimited = new RegExp(cb.name + '() called beyond maximum of 1');
-      cbLimited = limit(cb, 1);
+      var cbLimited = cb;
+      cbLimited = limit(cbLimited, 1);
       var done = 0;
       var i = 0;
       while(Math.max(i, done)<keys.length) {
@@ -240,7 +264,7 @@ function _eachControlled(obj, keys, i, fn, cb) {
 function nextTick(fn) {
    try {
       if(typeof fn !== 'function') {
-         throw new Error('Incorrect parameters supplied to nextTick');
+         return _error(new Error('Incorrect parameters supplied to nextTick'));
       }
       return function() {eventLoop.apply(null, _arrayConcat(fn, _clearArgs(arguments)));}
    } catch(err) {
@@ -254,7 +278,7 @@ function nextTick(fn) {
 function chain(links, cb) {
    try {
       if(_isArray(links) === false || links.length === 0 || typeof cb !== 'function') {
-         throw new Error('Incorrect parameters supplied to chain');
+         return _error(new Error('Incorrect parameters supplied to chain'), cb);
       }
       return nextTick(_chain)(links, 0, cb);
    } catch(err) {
@@ -289,7 +313,7 @@ function _chain(links, i, cb) {
 function hook(fn, start, end) {
    try {
       if(typeof fn !== 'function' || (typeof start !== 'function' && typeof end !== 'function')) {
-         throw new Error('Incorrect parameters supplied to hook');
+         return _error(new Error('Incorrect parameters supplied to hook'));
       }
       var hooked = function() {
         return (typeof(arguments[arguments.length - 1]) === 'function' ? _hook : _hookSync)(fn, arguments, start, end);
@@ -368,7 +392,7 @@ function _hookSync(fn, args, start, end) {
 function unhook(fn) {
    try {
       if(typeof fn !== 'function') {
-         throw new Error('Incorrect parameters supplied to unhook');
+         return _error(new Error('Incorrect parameters supplied to unhook'));
       }
       return (typeof fn._hookedFn !== 'undefined' ? fn._hookedFn : fn);
    } catch(err) {
@@ -382,13 +406,13 @@ function unhook(fn) {
 function limit(fn, max) {
    try {
       if(typeof fn !== 'function') {
-         throw new Error('Incorrect parameters supplied to limit');
+         return _error(new Error('Incorrect parameters supplied to limit'));
       }
       max = (typeof max === 'number' ? max : 1);
       var limited = function() {
          limited.count = (typeof limited.count === 'number' ? limited.count + 1 : 1);
          if(limited.count > max) {
-            throw new Error(fn.name + '() called beyond maximum of ' + max);
+            return _error(new Error(fn.name + '() called beyond maximum of ' + max));
          }
          return fn.apply(this, arguments);
       }
@@ -405,7 +429,7 @@ function limit(fn, max) {
 function unlimit(fn) {
    try {
       if(typeof fn !== 'function') {
-         throw new Error('Incorrect parameters supplied to unlimit');
+         return _error(new Error('Incorrect parameters supplied to unlimit'));
       }
       return (typeof fn._limitedFn !== 'undefined' ? fn._limitedFn : fn);
    } catch(err) {
@@ -419,7 +443,7 @@ function unlimit(fn) {
 function repeat(cond, fn, cb) {
    try {
       if(typeof cond !== 'function' || typeof fn !== 'function' || typeof cb !== 'function') {
-         throw new Error('Incorrect parameters supplied to repeat');
+         return _error(new Error('Incorrect parameters supplied to repeat'), cb);
       }
       return cond(function(err, ok) {
          return (err || ok === true ? cb((err ? err : null)) : fn(function(err) {

@@ -1,14 +1,14 @@
 {
   "name": "coolback",
   "description": "Some callback utilities plus others",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "homepage": "https://github.com/sjclay/coolback",
   "author": {
     "name": "Simon Clay"
   },
   "maintainers": [
     {
-      "name": "Simon Clay",
+      "name": "sjclay",
       "email": "simonclay@hotmail.com"
     }
   ],
@@ -41,9 +41,9 @@
     "module"
   ],
   "gitHead": "a2ff511a4c88005a920d809c2db6344d8e79f5b8",
-  "_id": "coolback@0.0.1",
-  "_shasum": "41de7c5e823d8d236624aac6fe3d90a9f9b6f745",
-  "_from": "coolback@0.0.1",
+  "_id": "coolback@0.0.2",
+  "_shasum": "f9823f94969a8d944a5abff5b80a3e5ffd58881f",
+  "_from": "coolback@0.0.2",
   "_npmVersion": "2.15.5",
   "_nodeVersion": "4.4.5",
   "_npmUser": {
@@ -51,13 +51,13 @@
     "email": "simonclay@hotmail.com"
   },
   "dist": {
-    "shasum": "41de7c5e823d8d236624aac6fe3d90a9f9b6f745",
-    "tarball": "https://cde.toyota-europe.com/nexus/content/groups/npm-all/coolback/-/coolback-0.0.1.tgz"
+    "shasum": "f9823f94969a8d944a5abff5b80a3e5ffd58881f",
+    "tarball": "https://cde.toyota-europe.com/nexus/content/groups/npm-all/coolback/-/coolback-0.0.2.tgz"
   },
   "_npmOperationalInternal": {
-    "host": "packages-16-east.internal.npmjs.com",
-    "tmp": "tmp/coolback-0.0.1.tgz_1468395376540_0.6967977399472147"
+    "host": "packages-18-east.internal.npmjs.com",
+    "tmp": "tmp/coolback-0.0.2.tgz_1476957063467_0.9664996052160859"
   },
   "directories": {},
-  "_resolved": "https://cde.toyota-europe.com/nexus/content/groups/npm-all/coolback/-/coolback-0.0.1.tgz"
+  "_resolved": "https://cde.toyota-europe.com/nexus/content/groups/npm-all/coolback/-/coolback-0.0.2.tgz"
 }

@@ -247,7 +247,7 @@ function _eachControlled(obj, keys, i, fn, cb) {
       return fn(keys[i], obj[keys[i]], nextTick(function(err) {
          if(err) {
             //Error so end early
-            return cb(err);
+            return nextTick(cb)(err);
          }
          // Keep the loop going
          return nextTick(_eachControlled)(obj, keys, ++i, fn, cb);
@@ -295,12 +295,12 @@ function _chain(links, i, cb) {
          // All done
          return eventLoop.apply(null, _arrayConcat([cb, null], _clearArgs(arguments, [0, 1, 2])));
       }
-      return eventLoop.apply(null, _arrayConcat(links[i], _arrayConcat(_clearArgs(arguments, [0, 1, 2]), function(err) {
+      return eventLoop.apply(null, _arrayConcat(links[i], _arrayConcat(_clearArgs(arguments, [0, 1, 2]), nextTick(function(err) {
          if(err) {
            return nextTick(cb)(err);
          }
-         return _chain.apply(null, _arrayConcat([links, ++i, cb], _clearArgs(arguments, [0])));
-      })));
+         return eventLoop.apply(null, _arrayConcat([_chain, links, ++i, cb], _clearArgs(arguments, [0])));
+      }))));
    } catch(err) {
       // Report the error
       return _error(err, cb);

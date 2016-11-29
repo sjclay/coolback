@@ -109,8 +109,8 @@ module.exports = function(_nextTick) {
       if(argKeys.length === 0 || nsKeys.length === 0) {
          return
       }
-      for(var k=0;k<argKeys.legth;++k) {
-         for(var n=0;n<nsKeys.legth;++n) {
+      for(var k=0;k<argKeys.length;++k) {
+         for(var n=0;n<nsKeys.length;++n) {
             if(typeof args[argKeys[k]] === 'function') {
               // Functions
               args[argKeys[k]] = process.namespaces[nsKeys[n]].bind(args[argKeys[k]]);

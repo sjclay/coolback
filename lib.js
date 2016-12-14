@@ -220,8 +220,8 @@ module.exports = function(_nextTick) {
     */
    function _eachWild(obj, keys, fn, cb) {
       try {
-         var regexLimited = new RegExp(cb.name + '() called beyond maximum of 1');
          var cbLimited = cb;
+         var regexLimited = new RegExp(cbLimited.name + '() called beyond maximum of 1');
          cbLimited = limit(cbLimited, 1);
          var done = 0;
          var i = 0;
@@ -233,9 +233,9 @@ module.exports = function(_nextTick) {
                      return nextTick(cbLimited)((err ? err : null))
                   }
                } catch(err) {
-                  done = keys.length;
                   if(regexLimited.test(err.message) === false) {
                      // Not as a result of limit
+                     done = keys.length;
                      return _error(err, cb);
                   }
                }
@@ -263,7 +263,7 @@ module.exports = function(_nextTick) {
                return nextTick(cb)(err);
             }
             // Keep the loop going
-            return nextTick(_eachControlled)(obj, keys, ++i, fn, cb);
+            return nextTick(_eachControlled)(obj, keys, i + 1, fn, cb);
          }));
       } catch(err) {
          // Report the error

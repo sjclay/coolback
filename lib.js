@@ -113,10 +113,12 @@ module.exports = function(_nextTick) {
          for(var n=0;n<nsKeys.length;++n) {
             if(typeof args[argKeys[k]] === 'function') {
               // Functions
-              if(args[argKeys[k]].toString().indexOf('self.enter(context);') === -1 && args[argKeys[k]].toString().indexOf('self.exit(context);') === -1) {
+              if(typeof args[argKeys[k]]._coolback_clsBound === 'undefined' || args[argKeys[k]]._coolback_clsBound.indexOf(nsKeys[n]) === -1) {
                 // Only bind functions that have not already been bound
                 args[argKeys[k]] = process.namespaces[nsKeys[n]].bind(args[argKeys[k]]);
-              }
+                args[argKeys[k]]._coolback_clsBound = (typeof args[argKeys[k]].CBclsBound === 'undefined' ? '' : args[argKeys[k]]._coolback_clsBound);
+                args[argKeys[k]]._coolback_clsBound += '[' + nsKeys[n] + ']';
+              }              
             } else {
               try {
                 // Streams

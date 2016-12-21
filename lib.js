@@ -113,7 +113,10 @@ module.exports = function(_nextTick) {
          for(var n=0;n<nsKeys.length;++n) {
             if(typeof args[argKeys[k]] === 'function') {
               // Functions
-              args[argKeys[k]] = process.namespaces[nsKeys[n]].bind(args[argKeys[k]]);
+              if(args[argKeys[k]].toString().indexOf('self.enter(context);') === -1 && args[argKeys[k]].toString().indexOf('self.exit(context);') === -1) {
+                // Only bind functions that have not already been bound
+                args[argKeys[k]] = process.namespaces[nsKeys[n]].bind(args[argKeys[k]]);
+              }
             } else {
               try {
                 // Streams

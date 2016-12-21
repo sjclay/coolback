@@ -5,7 +5,7 @@
 var _coolback = require('./index.js');
 var assert = require("assert");
 var coolback;
-var modules = ['', 'io', 'process', 'sync'];
+var modules = ['', 'io', 'process', 'sync', 'random'];
 
 for(var i=0;i<modules.length;++i) {
    coolback = (modules[i].length > 0 ? _coolback[modules[i]] : _coolback);

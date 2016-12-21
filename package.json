@@ -1,7 +1,7 @@
 {
     "name": "coolback",
     "description": "Some callback utilities plus others",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "homepage": "https://github.com/sjclay/coolback",
     "author": {
         "name": "Simon Clay"
